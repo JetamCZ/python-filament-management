@@ -33,3 +33,43 @@ class FilamentDb:
         conn.close()
 
         print("Spool added successfully.")
+
+    def remove_filament(self, filament_id):
+        conn = sqlite3.connect(self.db_name)
+        cursor = conn.cursor()
+
+        cursor.execute('''
+            DELETE FROM filaments WHERE id = ?
+        ''', (filament_id,))
+
+        conn.commit()
+
+        conn.close()
+        print("Filament removed successfully.")
+
+    def remove_spool(self, spool_id):
+        conn = sqlite3.connect(self.db_name)
+        cursor = conn.cursor()
+
+        cursor.execute('''
+            DELETE FROM spools WHERE id = ?
+        ''', (spool_id,))
+
+        conn.commit()
+        conn.close()
+
+        print("Spool removed successfully.")
+
+    def add_spool_weight(self, spool_id, datetime, weight):
+        conn = sqlite3.connect(self.db_name)
+        cursor = conn.cursor()
+
+        cursor.execute('''
+            INSERT INTO Spool_weight (spool_id, datetime, weight)
+            VALUES (?, ?, ?)
+        ''', (spool_id, datetime, weight))
+
+        conn.commit()
+        conn.close()
+
+        print("Spool weight added successfully.")
