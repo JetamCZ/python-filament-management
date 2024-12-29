@@ -20,14 +20,14 @@ class FilamentDb:
 
         print("Filament added successfully.")
 
-    def add_spool(self, filament_id, code, original_filament_weight, original_spool_weight):
+    def add_spool(self, filament_id, code, original_filament_weight, original_spool_weight, original_length):
         conn = sqlite3.connect(self.db_name)
         cursor = conn.cursor()
 
         cursor.execute('''
-            INSERT INTO spools (filament_id, code, original_filament_weight, original_spool_weight)
-            VALUES (?, ?, ?, ?)
-        ''', (filament_id, code, original_filament_weight, original_spool_weight))
+            INSERT INTO spools (filament_id, code, original_filament_weight, original_spool_weight, original_length)
+            VALUES (?, ?, ?, ?, ?)
+        ''', (filament_id, code, original_filament_weight, original_spool_weight, original_length))
 
         conn.commit()
         conn.close()
