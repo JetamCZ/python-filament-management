@@ -1,6 +1,5 @@
 import sqlite3
 
-
 def create_database(db_name):
     conn = sqlite3.connect(db_name)
     cursor = conn.cursor()
@@ -10,7 +9,8 @@ def create_database(db_name):
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             manufacturer VARCHAR(255),
             type VARCHAR(128),
-            color_name VARCHAR(64)
+            color_name VARCHAR(64),
+            custom_name VARCHAR(255)
         )
     ''')
 
@@ -18,7 +18,6 @@ def create_database(db_name):
         CREATE TABLE IF NOT EXISTS spools (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             filament_id INTEGER,
-            code VARCHAR(64),
             original_filament_weight INTEGER,
             original_spool_weight INTEGER,
             original_length FLOAT,
