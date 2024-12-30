@@ -10,6 +10,7 @@ from utils.validator import input_with_validation
 from utils.validator import valid_string
 from utils.validator import valid_integer
 
+
 def create_filament(db: FilamentDb):
     custom_name = input_with_validation("Enter name (any custom name): ", valid_string)
     manufacturer = input_with_validation("Enter manufacturer: ", valid_string)
@@ -66,6 +67,10 @@ def add_weight(db: FilamentDb):
 
     if spool is None:
         print("Unknown spool")
+        return
+
+    if weight < 0 or weight > spool.original_spool_weight:
+        print("Invalid weight")
         return
 
     db.add_spool_weight(
