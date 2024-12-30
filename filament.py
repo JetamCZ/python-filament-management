@@ -1,6 +1,6 @@
 from FilamentDb import FilamentDb, Filament, Spool
 from initdb import create_database
-
+from datetime import datetime
 
 def create_filament(db: FilamentDb):
     custom_name = input("Enter name (any custom name): ")
@@ -52,9 +52,19 @@ def delete_spool(db: FilamentDb):
 
 def add_weight(db: FilamentDb):
     spool_id = int(input("Enter spool ID: "))
-    datetime = input("Enter datetime (YYYY-MM-DD HH:MM:SS): ")
-    weight = int(input("Enter weight: "))
-    db.add_spool_weight(spool_id, datetime, weight)
+
+    spool = db.get_spool(spool_id)
+    weight = int(input("Enter current weight of filament with spool: "))
+
+    if spool is None:
+        print("Unknown spool")
+        return
+
+    db.add_spool_weight(
+        spool_id=spool_id,
+        datetime=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        weight=weight
+    )
 
 
 def show_all_spools(db: FilamentDb):
@@ -116,6 +126,7 @@ def cli_loop():
         elif choice == "4":
             delete_spool(db)
         elif choice == "5":
+            show_all_spools(db)
             add_weight(db)
         elif choice == "6":
             show_all_filaments(db)

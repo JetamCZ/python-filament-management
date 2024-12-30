@@ -105,7 +105,7 @@ class FilamentDb:
         cursor = conn.cursor()
 
         cursor.execute('''
-            INSERT INTO Spool_weight (spool_id, datetime, weight)
+            INSERT INTO spools_weights (spool_id, datetime, weight)
             VALUES (?, ?, ?)
         ''', (spool_id, datetime, weight))
 
@@ -161,6 +161,33 @@ class FilamentDb:
             color_name=row[3],
             custom_name=row[4]
         )
+
+    def get_spool(self, spool_id):
+        conn = sqlite3.connect(self.db_name)
+        cursor = conn.cursor()
+
+        cursor.execute('''
+            SELECT * FROM spools
+            JOIN filaments ON filaments.id = spools.filament_id  
+            WHERE spools.id = ?
+        ''', (spool_id,))
+
+        row = cursor.fetchone()
+        conn.close()
+
+        return Spool(
+                id=row[0],
+                original_filament_weight=row[2],
+                original_spool_weight=row[3],
+                original_length=row[4],
+                filament=Filament(
+                    id=row[5],
+                    manufacturer=row[6],
+                    filament_type=row[7],
+                    color_name=row[8],
+                    custom_name=row[9]
+                )
+            )
 
     def get_all_filaments(self):
         conn = sqlite3.connect(self.db_name)
