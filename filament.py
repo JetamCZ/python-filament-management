@@ -1,4 +1,4 @@
-from FilamentDb import FilamentDb
+from FilamentDb import FilamentDb, Filament, Spool
 from initdb import create_database
 
 
@@ -8,12 +8,14 @@ def create_filament(db: FilamentDb):
     filament_type = input("Enter type (PLA/PETG/TPU/...): ")
     color_name = input("Enter color: ")
 
-    db.add_filament(
-        custom_name=custom_name,
+    filament = Filament(
         manufacturer=manufacturer,
         filament_type=filament_type,
-        color_name=color_name
+        color_name=color_name,
+        custom_name=custom_name
     )
+
+    db.add_filament(filament)
 
 
 def create_spool(db: FilamentDb):
@@ -21,7 +23,21 @@ def create_spool(db: FilamentDb):
     original_filament_weight = int(input("Enter original filament only weight (g): "))
     original_spool_weight = int(input("Enter original total weight with spool (g): "))
     original_length = float(input("Enter original spool length (meters): "))
-    db.add_spool(filament_id, original_filament_weight, original_spool_weight, original_length)
+
+    filament = db.get_filament(filament_id)
+
+    if filament is None:
+        print("Unknown filament")
+        return
+
+    spool = Spool(
+        filament=filament,
+        original_filament_weight=original_filament_weight,
+        original_spool_weight=original_spool_weight,
+        original_length=original_length
+    )
+
+    db.add_spool(spool)
 
 
 def delete_filament(db: FilamentDb):
@@ -42,30 +58,32 @@ def add_weight(db: FilamentDb):
 
 
 def show_all_spools(db: FilamentDb):
-    rows = db.get_all_spools()
+    spools = db.get_all_spools()
 
-    print("ID | Manufacturer | Type | Color | Filament Weight | Spool Weight")
+    print("Spool, Filament")
     print("-" * 70)
-    for row in rows:
-        print(" | ".join(map(str, row)))
+    for spool in spools:
+        print(spool)
+        print(spool.filament)
+        print("-" * 3)
 
 
 def show_all_filaments(db: FilamentDb):
-    rows = db.get_all_filaments()
+    filaments = db.get_all_filaments()
 
-    print("ID | Manufacturer | Type | Color")
+    print("Filaments")
     print("-" * 70)
-    for row in rows:
-        print(" | ".join(map(str, row)))
+    for filament in filaments:
+        print(filament)
 
 
 def show_spools_by_filament(db: FilamentDb):
     filament_id = int(input("Enter filament ID: "))
-    rows = db.get_spools_by_filament(filament_id)
+    spools = db.get_spools_by_filament(filament_id)
 
-    print("ID | Manufacturer | Type | Color | Filament Weight | Spool Weight")
-    for row in rows:
-        print(" | ".join(map(str, row)))
+    print("Spool")
+    for spool in spools:
+        print(spool)
 
 
 def cli_loop():
@@ -90,8 +108,10 @@ def cli_loop():
         if choice == "1":
             create_filament(db)
         elif choice == "2":
+            show_all_filaments(db)
             delete_filament(db)
         elif choice == "3":
+            show_all_filaments(db)
             create_spool(db)
         elif choice == "4":
             delete_spool(db)
@@ -102,6 +122,7 @@ def cli_loop():
         elif choice == "7":
             show_all_spools(db)
         elif choice == "8":
+            show_all_filaments(db)
             show_spools_by_filament(db)
         elif choice == "exit":
             print("Exiting CLI.")
