@@ -1,7 +1,9 @@
-from FilamentDb import FilamentDb, Filament, Spool
-from initdb import create_database
+from models.spool import Spool
+from db.db_controller import FilamentDb
+from db.initdb import create_database
 from datetime import datetime
 
+from config import config as env_config
 
 def create_filament(db: FilamentDb):
     custom_name = input("Enter name (any custom name): ")
@@ -72,7 +74,7 @@ def add_weight(db: FilamentDb):
 def show_all_spools(db: FilamentDb):
     spools = db.get_all_spools()
 
-    print("Spool, Filament")
+    print("Spool, Filament.py")
     print("-" * 70)
     for spool in spools:
         print(spool)
@@ -99,12 +101,12 @@ def show_spools_by_filament(db: FilamentDb):
 
 
 def cli_loop():
-    db = FilamentDb("filament_management.db")
+    db = FilamentDb(env_config.db_name)
 
     while True:
-        print("\nFilament Management CLI")
-        print("1. Add Filament (type)")
-        print("2. Remove Filament (type)")
+        print("\nFilament.py Management CLI")
+        print("1. Add Filament.py (type)")
+        print("2. Remove Filament.py (type)")
         print("3. Add Spool")
         print("4. Remove Spool")
         print("5. Add Spool Weight")
@@ -145,5 +147,5 @@ def cli_loop():
 
 
 if __name__ == "__main__":
-    create_database("filament_management.db")
+    create_database(env_config.db_name)
     cli_loop()

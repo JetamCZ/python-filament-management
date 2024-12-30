@@ -2,3 +2,4 @@
 filament_management.db
 
 __pyCache__
+config/.env

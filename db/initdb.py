@@ -40,7 +40,7 @@ def create_database(db_name):
 
 
 if __name__ == "__main__":
-    database_file = "filament_management.db"
+    database_file = "../filament_management.db"
 
     create_database(database_file)
     print(f"Database '{database_file}' with tables created successfully.")
