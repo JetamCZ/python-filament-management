@@ -5,3 +5,5 @@ __pyCache__
 config/.env
 
 output.xlsx
+
+.venv
