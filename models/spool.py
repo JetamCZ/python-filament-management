@@ -18,7 +18,7 @@ class Spool:
 
         return self.original_length / self.original_filament_weight * rest_filament_weight
 
-    def __repr__(self):
+    def __str__(self):
         return (f"Spool(id={self.id}, filament_id={self.filament.id}, original_length='{self.original_length}', "
                 f"original_filament_weight={self.original_filament_weight}, original_spool_weight={self.original_spool_weight}, last_weight={self.last_weight}, estimate={self.calculate_length_by_weight(self.last_weight)}m)")
 

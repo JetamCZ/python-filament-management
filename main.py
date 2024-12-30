@@ -1,9 +1,12 @@
 from models.spool import Spool
+from models.filament import Filament
 from db.db_controller import FilamentDb
 from db.initdb import create_database
 from datetime import datetime
+from db.export_to_excel import export_to_excel
 
 from config import config as env_config
+
 
 def create_filament(db: FilamentDb):
     custom_name = input("Enter name (any custom name): ")
@@ -71,6 +74,7 @@ def add_weight(db: FilamentDb):
 
     print(f"New estimated length ${spool.calculate_length_by_weight(weight)}m")
 
+
 def show_all_spools(db: FilamentDb):
     spools = db.get_all_spools()
 
@@ -100,6 +104,13 @@ def show_spools_by_filament(db: FilamentDb):
         print(spool)
 
 
+def export(db: FilamentDb):
+    spools = db.get_all_spools()
+    filaments = db.get_all_filaments()
+
+    export_to_excel("./output.xlsx", spools, filaments)
+
+
 def cli_loop():
     db = FilamentDb(env_config.db_name)
 
@@ -113,6 +124,7 @@ def cli_loop():
         print("6. Show all filaments (types)")
         print("7. Show all spools")
         print("8. Show spools by filament (type)")
+        print("9. Export to xlsx file")
         print("\nto exit write \"exit\"")
 
         choice = input("\nEnter your choice: ")
@@ -139,6 +151,8 @@ def cli_loop():
         elif choice == "8":
             show_all_filaments(db)
             show_spools_by_filament(db)
+        elif choice == "9":
+            export(db)
         elif choice == "exit":
             print("Exiting CLI.")
             break
