@@ -2,6 +2,7 @@ from FilamentDb import FilamentDb, Filament, Spool
 from initdb import create_database
 from datetime import datetime
 
+
 def create_filament(db: FilamentDb):
     custom_name = input("Enter name (any custom name): ")
     manufacturer = input("Enter manufacturer: ")
@@ -66,6 +67,7 @@ def add_weight(db: FilamentDb):
         weight=weight
     )
 
+    print(f"New estimated length ${spool.calculate_length_by_weight(weight)}m")
 
 def show_all_spools(db: FilamentDb):
     spools = db.get_all_spools()
