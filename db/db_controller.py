@@ -22,7 +22,7 @@ class FilamentDb:
         conn.commit()
         conn.close()
 
-        print("Filament.py added successfully.")
+        print("Filament added successfully.")
 
     def add_spool(self, spool: Spool):
         conn = sqlite3.connect(self.db_name)
@@ -60,7 +60,7 @@ class FilamentDb:
         conn.commit()
 
         conn.close()
-        print("Filament.py removed successfully.")
+        print("Filament removed successfully.")
 
     def remove_spool(self, spool_id):
         conn = sqlite3.connect(self.db_name)

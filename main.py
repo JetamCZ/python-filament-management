@@ -78,7 +78,7 @@ def add_weight(db: FilamentDb):
 def show_all_spools(db: FilamentDb):
     spools = db.get_all_spools()
 
-    print("Spool, Filament.py")
+    print("Spool, Filament")
     print("-" * 70)
     for spool in spools:
         print(spool)
@@ -115,9 +115,9 @@ def cli_loop():
     db = FilamentDb(env_config.db_name)
 
     while True:
-        print("\nFilament.py Management CLI")
-        print("1. Add Filament.py (type)")
-        print("2. Remove Filament.py (type)")
+        print("\nFilament Management CLI")
+        print("1. Add filament (type)")
+        print("2. Remove filament (type)")
         print("3. Add Spool")
         print("4. Remove Spool")
         print("5. Add Spool Weight")

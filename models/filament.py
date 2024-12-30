@@ -7,5 +7,5 @@ class Filament:
         self.custom_name = custom_name
 
     def __str__(self):
-        return f"Filament.py(id={self.id}, manufacturer='{self.manufacturer}', type='{self.type}', color_name='{self.color_name}')"
+        return f"Filament(id={self.id}, manufacturer='{self.manufacturer}', type='{self.type}', color_name='{self.color_name}')"
 
