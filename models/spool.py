@@ -9,7 +9,7 @@ class Spool:
         self.original_filament_weight = original_filament_weight
         self.original_spool_weight = original_spool_weight
         self.original_length = original_length
-        self.last_weight = last_weight if last_weight is not None else original_filament_weight
+        self.last_weight = last_weight if last_weight is not None else original_spool_weight
 
     def calculate_length_by_weight(self, weight):
         spool_weight = self.original_spool_weight - self.original_filament_weight

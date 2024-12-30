@@ -163,7 +163,7 @@ class FilamentDb:
                         GROUP BY
                             spool_id
                     )
-            ) AS last_weight ON spools.id = last_weight.spool_id;
+            ) AS last_weight ON spools.id = last_weight.spool_id
             WHERE spools.id = ?
         ''', (spool_id,))
 
@@ -215,7 +215,7 @@ class FilamentDb:
                         GROUP BY
                             spool_id
                     )
-            ) AS last_weight ON spools.id = last_weight.spool_id;
+            ) AS last_weight ON spools.id = last_weight.spool_id
             WHERE filament_id = ?
         ''', (filament_id,))
 

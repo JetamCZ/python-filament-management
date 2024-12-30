@@ -6,13 +6,15 @@ from datetime import datetime
 from db.export_to_excel import export_to_excel
 
 from config import config as env_config
-
+from utils.validator import input_with_validation
+from utils.validator import valid_string
+from utils.validator import valid_integer
 
 def create_filament(db: FilamentDb):
-    custom_name = input("Enter name (any custom name): ")
-    manufacturer = input("Enter manufacturer: ")
-    filament_type = input("Enter type (PLA/PETG/TPU/...): ")
-    color_name = input("Enter color: ")
+    custom_name = input_with_validation("Enter name (any custom name): ", valid_string)
+    manufacturer = input_with_validation("Enter manufacturer: ", valid_string)
+    filament_type = input_with_validation("Enter type (PLA/PETG/TPU/...): ", valid_string)
+    color_name = input_with_validation("Enter color: ", valid_string)
 
     filament = Filament(
         manufacturer=manufacturer,
@@ -25,10 +27,10 @@ def create_filament(db: FilamentDb):
 
 
 def create_spool(db: FilamentDb):
-    filament_id = int(input("Enter filament ID: "))
-    original_filament_weight = int(input("Enter original filament only weight (g): "))
-    original_spool_weight = int(input("Enter original total weight with spool (g): "))
-    original_length = float(input("Enter original spool length (meters): "))
+    filament_id = int(input_with_validation("Enter filament ID: ", valid_integer))
+    original_filament_weight = int(input_with_validation("Enter original filament only weight (g): ", valid_integer))
+    original_spool_weight = int(input_with_validation("Enter original total weight with spool (g): ", valid_integer))
+    original_length = float(input_with_validation("Enter original spool length (meters): ", valid_integer))
 
     filament = db.get_filament(filament_id)
 
@@ -47,20 +49,20 @@ def create_spool(db: FilamentDb):
 
 
 def delete_filament(db: FilamentDb):
-    filament_id = int(input("Enter filament ID to remove: "))
+    filament_id = int(input_with_validation("Enter filament ID to remove: ", valid_integer))
     db.remove_filament(filament_id)
 
 
 def delete_spool(db: FilamentDb):
-    spool_id = int(input("Enter spool ID to remove: "))
+    spool_id = int(input_with_validation("Enter spool ID to remove: ", valid_integer))
     db.remove_spool(spool_id)
 
 
 def add_weight(db: FilamentDb):
-    spool_id = int(input("Enter spool ID: "))
+    spool_id = int(input_with_validation("Enter spool ID: ", valid_integer))
 
     spool = db.get_spool(spool_id)
-    weight = int(input("Enter current weight of filament with spool: "))
+    weight = int(input_with_validation("Enter current weight of filament with spool: ", valid_integer))
 
     if spool is None:
         print("Unknown spool")
@@ -72,7 +74,7 @@ def add_weight(db: FilamentDb):
         weight=weight
     )
 
-    print(f"New estimated length ${spool.calculate_length_by_weight(weight)}m")
+    print(f"New estimated length {spool.calculate_length_by_weight(weight)}m")
 
 
 def show_all_spools(db: FilamentDb):
@@ -96,10 +98,11 @@ def show_all_filaments(db: FilamentDb):
 
 
 def show_spools_by_filament(db: FilamentDb):
-    filament_id = int(input("Enter filament ID: "))
+    filament_id = int(input_with_validation("Enter filament ID: ", valid_integer))
     spools = db.get_spools_by_filament(filament_id)
 
-    print("Spool")
+    print("\nSpool")
+    print("-" * 70)
     for spool in spools:
         print(spool)
 
@@ -140,6 +143,7 @@ def cli_loop():
             show_all_filaments(db)
             create_spool(db)
         elif choice == "4":
+            show_all_spools(db)
             delete_spool(db)
         elif choice == "5":
             show_all_spools(db)
