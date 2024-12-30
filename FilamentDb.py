@@ -35,6 +35,12 @@ class FilamentDb:
         print("Spool added successfully.")
 
     def remove_filament(self, filament_id):
+        spools = self.get_spools_by_filament(filament_id)
+
+        if len(spools) > 0:
+            print("Cannot remove a filament. Remove all filament spools first.")
+            return False
+
         conn = sqlite3.connect(self.db_name)
         cursor = conn.cursor()
 
